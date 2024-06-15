@@ -161,3 +161,4 @@ cython_debug/
 rlgym-ppo.code-workspace
 .vscode/settings.json
 *.code-workspace
+RocketSimVis/
