@@ -45,8 +45,8 @@ class Learner(object):
             max_returns_per_stats_increment: int = 150,
             steps_per_obs_stats_increment: int = 5,
 
-            policy_layer_sizes: Tuple[int, ...] = (2048, 1024, 512, 512),
-            critic_layer_sizes: Tuple[int, ...] = (2048, 1024, 512, 512),
+            policy_layer_sizes: Tuple[int, ...] = (1024, 512, 256),
+            critic_layer_sizes: Tuple[int, ...] = (1024, 512, 256),
             continuous_var_range: Tuple[float, ...] = (0.1, 1.0),
 
             ppo_epochs: int = 2,
@@ -57,8 +57,8 @@ class Learner(object):
 
             gae_lambda: float = 0.95,
             gae_gamma: float = 0.99,
-            policy_lr: float = 2e-4, #7 = brand new, 3 = chase and hit ball, 2 = can score, 1 = outplay like flicks and dribbles
-            critic_lr: float = 2e-4, #same as above
+            policy_lr: float = 7e-4, #7 = brand new, 3 = chase and hit ball, 2 = can score, 1 = outplay like flicks and dribbles
+            critic_lr: float = 7e-4, #same as above
 
             log_to_wandb: bool = False,
             load_wandb: bool = True,
@@ -69,11 +69,11 @@ class Learner(object):
 
             checkpoints_save_folder: Union[str, None] = None,
             add_unix_timestamp: bool = False,
-            checkpoint_load_folder: Union[str, None] = "data/checkpoints/rlgym-ppo-run/" + str(max(os.listdir("data/checkpoints/rlgym-ppo-run"), key=lambda d: int(d))),
+            checkpoint_load_folder: Union[str, None] = None,
             save_every_ts: int = 1_000_000,
 
             instance_launch_delay: Union[float, None] = None,
-            random_seed: int = 616263,
+            random_seed: int = 654,
             n_checkpoints_to_keep: int = 5,
             shm_buffer_size: int = 8192,
             device: str = "auto"):

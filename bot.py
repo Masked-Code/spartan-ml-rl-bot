@@ -11,61 +11,6 @@ from rlgym_sim.utils.common_values import CAR_MAX_SPEED, BALL_MAX_SPEED
 SUPERSONIC_THRESHOLD = 2200
 
 max_vel_diff = 3000
-# This is a zeo sum reward function that rewards the player that scored the goal
-#class ZeroSumGoalReward(RewardFunction):
-#    def init(self):
-#        super().init()
-#        self.prev_score_blue = 0
-#        self.prev_score_orange = 0
-#        self.prev_state = None
-#        # weights add up to .5
-#        self.height = 0.35
-#        self.speed = 0.15
-#        # max values for rewards
-#        self.max_speed = 135 * KPH_TO_VEL
-#        self.max_dis = 2500
-#
-#        self.reward = np.zeros(2)
-#
-#    def reset(self, initial_state: GameState):
-#        self.prev_score_orange = initial_state.orange_score
-#        self.prev_state = initial_state
-#
-#    def get_reward(self, player: PlayerData, state: GameState, previous_action: np.ndarray) -> float:
-#        score = state.blue_score
-#
-#        blue_rew = 0
-#        orange_rew = 0
-#
-#        scored = False
-#
-#        if self.prev_score_blue < score:
-#            blue_rew = (np.linalg.norm(self.prev_state.ball.linear_velocity) / self.max_speed) * self.speed + 0.5
-#            blue_rew += self.prev_state.ball.position[2] / (642 - BALL_RADIUS) * self.height
-#
-#        score_orange = state.orange_score
-#        # check to see if goal scored
-#        if score_orange > self.prev_score_orange:
-#            orange_rew = (np.linalg.norm(self.prev_state.ball.linear_velocity) / self.max_speed) * self.speed + 0.5
-#            orange_rew += self.prev_state.ball.position[2] / (642 - BALL_RADIUS) * self.height
-#
-#        self.reward[0] = blue_rew - orange_rew
-#        self.reward[1] = orange_rew - blue_rew
-#
-#        self.prev_score_blue = score
-#        self.prev_score_orange = score_orange
-#        self.prev_state = state
-#
-#        blue_reward = self.reward[0]
-#        orange_reward = self.reward[1]
-#
-#        if player.team_num == BLUE_TEAM:
-#            return blue_reward
-#
-#        elif player.team_num == BLUE_TEAM:
-#            return orange_reward
-#
-#        return 0
 
 class JumpTouchReward(RewardFunction):
     def __init__(self, min_height=92.75):
@@ -424,17 +369,17 @@ if __name__ == "__main__":
         n_proc=n_proc,
         min_inference_size=min_inference_size,
         metrics_logger=metrics_logger,
-        ppo_batch_size=200000, #this to ts_per_iteration
-        ts_per_iteration=200000, #50k = early, 100k = hitting the ball, shooting and scoring 200k or 300k
-        policy_layer_sizes=(2048, 1024, 512, 512), #If you change this you have to restart the training
-        critic_layer_sizes=(2048, 1024, 512, 512), #Just Match the poloicy layer sizes
-        exp_buffer_size=600000, # this to ts_per_iteration*2 or ts_per_iteration*3
-        ppo_minibatch_size=50000, #small portion of ppo_batch_size, I recommend 25_000 or 50_000
+        ppo_batch_size=50000, #this to ts_per_iteration
+        ts_per_iteration=50000, #50k = early, 100k = hitting the ball, shooting and scoring 200k or 300k
+        policy_layer_sizes=(1024, 512, 256), #If you change this you have to restart the training
+        critic_layer_sizes=(1024, 512, 256), #Just Match the poloicy layer sizes
+        exp_buffer_size=150000, # this to ts_per_iteration*2 or ts_per_iteration*3
+        ppo_minibatch_size=25000, #small portion of ppo_batch_size, I recommend 25_000 or 50_000
         ppo_ent_coef=0.01, #near 0.01.
         ppo_epochs=2, #I recommend 2 or 3, this is how much it goes over the same data
         standardize_returns=True,
         standardize_obs=False,
-        save_every_ts=400_000,
+        save_every_ts=100_000,
         timestep_limit=100_000_000_000,
         log_to_wandb=True)
     learner.learn()
