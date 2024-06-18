@@ -339,7 +339,7 @@ def build_rocketsim_env():
                           VelocityBallToGoalReward(),
                           GoalSpeedReward(),
                           GoalSpeedAndPlacementReward(),\
-                          EventReward(team_goal=4000.00, shot=200.00, concede=-300.00, demo=200.00, boost_pickup=30.00))
+                          EventReward(team_goal=1000.00, shot=100.00, concede=-1000.00, demo=100.00, boost_pickup=50.00))
     reward_weights = (1.50, 20.00, 1.00, 2.00, 8.00, 1.50, 2.50, 2.00, 0.40, 12.00, 10.00, 12.00, 15.00, 20.00)
 
     reward_fn = CombinedReward(reward_functions=rewards_to_combine,
